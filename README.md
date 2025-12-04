@@ -22,8 +22,4 @@ A bare-metal embedded project for the **ATmega328P** that demonstrates hardware 
 - Uses **Timer0** for PWM → avoid `delay_ms()` implementations that rely on Timer0 (may cause timing conflicts).
 - Timer2 is configured for CTC mode but currently unused beyond setup—can be extended for display multiplexing (e.g., 7-segment).
 
-##  Build & Flash
-```bash
-avr-gcc -mmcu=atmega328p -Os -o main.elf main.c
-avr-objcopy -O ihex main.elf main.hex
-avrdude -p m328p -c <programmer> -U flash:w:main.hex
+
