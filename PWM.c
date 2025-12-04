@@ -1,0 +1,33 @@
+#include <io.h>
+#include <delay.h>
+volatile char cnt;
+void main(void)
+{  
+
+  TCCR0A=0xA3;//fast pwm and non inverting 
+  TCCR0B=0x01;//no prescaler
+  OCR0A=10;
+  OCR0B=30; 
+  DDRD.5=1;
+  DDRD.6=1;
+  
+  OCR2A=249;
+  TCCR2A=1<<WGM21;//CTC MODE 
+  TCCR2B=(1<<CS21)|(1<<CS22);//256
+  TIMSK2=1<<TOIE2;
+  #asm("sei") 
+  
+while (1)
+    {
+       OCR0B++;
+       delay_ms(1000);
+    }
+}
+interrupt [TIM2_OVF] void tim2_ovf(void)
+{
+    cnt++;
+    if(cnt==50)
+    {
+        cnt=0;
+    }
+}
